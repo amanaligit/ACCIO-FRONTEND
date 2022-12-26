@@ -7,6 +7,23 @@ function Weather() {
     const [searchResults, setSearchResults] = useState([]);
     const [currentCity, setCurrentCity] = useState(null);
 
+    // show the user's current location weather data
+    useEffect(() => {
+        navigator.geolocation.getCurrentPosition((geo) => {
+            const lat = geo.coords.latitude;
+            const lon = geo.coords.longitude;
+            console.log(lat, lon)
+            
+            // call the geolocation API to get the city, country names
+            fetch(`http://api.openweathermap.org/geo/1.0/reverse?lat=${lat}&lon=${lon}&limit=5&appid=aff6f1194660ee7643d426b59c2f2742`)
+            .then(res => res.json())
+            .then(data => {
+                console.log(data);
+                setCurrentCity(data[0])});
+        });
+
+    }, [])
+
     // when user clicks on search button:
     function searchBtnHandler() {
         fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${searchInput}&limit=5&appid=aff6f1194660ee7643d426b59c2f2742`)

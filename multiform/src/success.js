@@ -7,6 +7,7 @@ function Success() {
         <>
             <h1>Success! </h1>
             <h3>The details have been logged to the console</h3>
+            
         </>
     )
 

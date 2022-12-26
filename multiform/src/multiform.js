@@ -9,7 +9,6 @@ import UserDetails from "./userdetails";
 function MultiForm() {
 
     const [pageNo, setPageNo] = useState(0);
-
     const [email, setEmail] = useState("");
     const [username, setusername] = useState("");
     const [password, setpassword] = useState("");

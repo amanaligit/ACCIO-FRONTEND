@@ -1,8 +1,11 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
+import { ThemeContext } from './App';
 
 function WeatherData({ currentCity }) {
 
     const [weatherData, setWeatherData] = useState(null);
+    const darkMode = useContext(ThemeContext);
+
 
     useEffect(() => {
         if (currentCity !== null) {
@@ -11,16 +14,20 @@ function WeatherData({ currentCity }) {
                 .then(res => res.json())
                 .then(data => {
                     setWeatherData(data)
-                    console.log(data)
+                    // console.log(data)
                 })
         }
     }, [currentCity])
 
+    // console.log(darkMode)
+    const listItemStyle = "list-group-item text-center " + (darkMode ? 'text-white bg-dark' : "")
 
     return (
         currentCity && weatherData ?
-            <div className='card mb-5'>
-                <img  className='card-img-top' src={`http://openweathermap.org/img/wn/${weatherData.weather[0].icon}@2x.png`} style={{width:'100px', margin:'auto'}}/>
+        <>
+        <h1 className='display-6 text-center'>Weather Data:</h1>
+            <div className={'card mb-5 ' + (darkMode ? 'text-white bg-dark' : "")}>
+                <img alt='weather description img'  className='card-img-top' src={`http://openweathermap.org/img/wn/${weatherData.weather[0].icon}@2x.png`} style={{width:'100px', margin:'auto'}}/>
                 <div className='card-body'>
                     <h3 className='text-center card-title'>
                         {currentCity.name}, {currentCity.country}
@@ -31,14 +38,15 @@ function WeatherData({ currentCity }) {
 
                 </div>
                 <ul className='list-group list-group-flush'>
-                    <li className='list-group-item text-center'>Temp: {Math.floor((weatherData.main.temp - 273.15)*100)/100 } &deg;C </li>
-                    <li className='list-group-item text-center text-center' >Low: {Math.floor((weatherData.main.temp_min - 273.15)*100)/100 } &deg;C </li>
-                    <li className='list-group-item text-center'>High: {Math.floor((weatherData.main.temp_max - 273.15)*100)/100 } &deg;C </li>
+                    <li className={listItemStyle}>Temp: {Math.floor((weatherData.main.temp - 273.15)*100)/100 } &deg;C </li>
+                    <li className={listItemStyle} >Low: {Math.floor((weatherData.main.temp_min - 273.15)*100)/100 } &deg;C </li>
+                    <li className={listItemStyle}>High: {Math.floor((weatherData.main.temp_max - 273.15)*100)/100 } &deg;C </li>
 
                 </ul>
 
 
             </div>
+        </>
 
             :
             null
